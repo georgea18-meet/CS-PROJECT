@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='design.css')}}">
+	<link rel="icon" href="https://10awesome.com/wp-content/uploads/2010/11/T.jpg">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Tasky - Tasks managing made easy!</title>
+</head>
+<body style="background-color: {{user.BG_color}}">
+	<div class="header">
+		<ul class="header">
+			<li class="header" id="name_and_profile"><h1><a href="{{url_for('feed')}}" id="no_understrike">Tasky</a></h1></li>
+			<a href="{{url_for('profile')}}">
+			<li class="header" id="name_and_profile"><img src="{{user.profile_pic}}" id="profile"></li>
+			<li class="header" id="name_and_profile"><h2>{{user.first_name}} {{user.last_name}}</h2></li></a>
+			<li>
+		<div style="background-color: rgb(6,174,213);" id="hidden">	
+		<ul style="list-style: none;">
+			<li class="header"><h4><a href="{{url_for('profile_edit')}}">Settings</a></h4></li> 
+			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
+		</ul>
+		</div>
+		</li>
+		</ul>	
+	</div>
+	{%if days < 0%}
+	<div class="container" id="expired_con">
+	{%else%}
+	<div class="container">
+	{%endif%}
+		<a href="{{url_for('group',group_id=task.group)}}">Get back to the project main page</a>
+		<h1>{{task.task_title}}</h1>
+		<p>{{task.task_text}}</p>
+		<p id="sort_bar">
+			<a href="{{url_for('edit_grouptask',task_id=task.id)}}">Edit</a>
+			<a href="{{url_for('delete_grouptask',task_id=task.id)}}">Delete</a>
+		</p>
+		<h3>Deadline:</h3>
+		<p>{{task.deadline_d}}/{{task.deadline_m}}/{{task.deadline_y}}</p>
+		<h3>Importance:</h3>
+		<p>{{task.importance}}</p>
+		<h3>Time needed:</h3>
+		{%if task.time_needed==1%}
+			<p>Minutes</p>
+		{%elif task.time_needed==2%}
+			<p>Hours</p>
+		{%else%}
+			<p>Days</p>
+		{%endif%}
+		<h3>Time left</h3>
+		<p>{{days}} Days</p>
+		<form action="{{url_for('grouptask',task_id=task.id)}}" method="POST">
+			<input type="submit" name="submit" value="Done">
+		</form>
+		<h2>Comments:</h2>
+		{%for i in comments%}
+		<center>
+		<div class="comment">
+			<p>
+				<img src="{{i[1].profile_pic}}" class="comm_pic"><h4 style="float: left; margin-left: 10px;">{{i[1].first_name}} {{i[1].last_name}}</h4><br> {{i[0].text}} {%if user.id == i[1].id%} <br><a href="{{url_for('delete_comment',comment_id=i[0].id)}}"> Delete </a> {%endif%}
+			</p>
+		</div>
+		</center>
+		{%endfor%}
+		<form action="{{url_for('add_comment',task_id=task.id)}}" method="POST">
+			<textarea name="comment" class="textbox" style="width: 100%;"></textarea>
+			<input type="submit" name="submit" value="Comment">
+		</form>
+	</div>
+</body>
+</html>

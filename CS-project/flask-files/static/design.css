@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+body{
+	background-color: rgb(6,174,213);
+	color: rgb(8,103,136); 
+	font-family: 'Lobster';
+}
+
+#title{
+	font-size: 24px;
+	color: rgb(255,255,250);
+}
+
+.header a{
+	color: white;
+}
+
+.header{
+	background-color: rgb(6,174,213);
+	list-style: none;
+	color: white;
+	position: sticky;
+	top: 0;
+	text-align: center;
+}
+
+.header li{
+	display: inline-block;
+	margin: auto;
+	margin: 10px;
+	text-align: center;
+}
+
+div{
+	background-color: rgb(255,255,250);
+}
+
+form{
+	margin: 10px;
+}
+
+.container{
+	width: 75%;
+	min-height: 500px;
+	border-style: solid;
+	border-width: 10px;
+	border-radius: 20px;
+	padding: 50px;
+	text-align: center;
+	margin: auto;
+	margin-top: 0;
+}
+
+.task_container{
+	width: 250px;
+	height: 200px;
+	text-align: center;
+	padding: 5px;	
+	margin: auto;
+	margin-bottom: 10px;
+	overflow: auto;
+	display: inline-block;
+	vertical-align: top;
+	border-radius: 20px;
+}
+
+.task_container:hover{
+	box-shadow: 2px 2px 1px 1px rgb(8,103,136);
+}
+
+.friends_container{
+	border-radius: 20px;
+	width: 250px;
+	height: 250px;
+	text-align: center;
+	padding: 2.5px;	
+	margin: auto;
+	margin-top: 10px;
+	overflow: auto;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.friends_container:hover{
+	box-shadow: 2px 2px 1px 1px rgb(8,103,136);
+}
+
+.textbox{
+	border-radius: 5px;
+}
+
+.textbox:focus{
+	background-color: rgb(209,209,205);
+}
+
+.button{
+	margin: 10px;
+	border-radius: 5px;
+}
+
+.button:hover{
+	background-color: rgb(209,209,205);
+}
+
+.task_link{
+	color: rgb(8,103,136); 
+}
+
+#expired{
+	color: red;
+}
+
+#sort_bar{
+	word-spacing: 2em;
+}
+
+#expired_con{
+	color: red;
+	border-color: rgb(8,103,136);
+}
+
+#profile{
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	margin: 10px;
+}
+
+#friend{
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin: 10px;
+}
+
+#first{
+	margin-left: 225px;
+	position: relative; 
+}
+
+#name_and_profile{
+	border-style: none;
+	padding: auto;
+}
+
+table,td{
+	margin: auto;
+	padding: 25px;
+}
+
+#profile_page{
+	width: 250px;
+	height: 250px;
+	border-radius: 50%;
+}
+
+.giant_number{
+	font-size: 72px;
+}
+
+#dropdown_content{
+	position: fixed;
+}
+
+#done{
+	color: grey;
+}
+
+#no_understrike:hover{
+	text-decoration: none;
+}
+
+.requests{
+	max-height: 250px;
+	width: 100%;
+	overflow: auto;
+	display: none;
+}
+
+.little_red_circle{
+	border-radius: 50%;
+	background-color: red;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	height: 25px;
+	width: 25px;
+	margin: 10px;
+	margin-top: 0;
+	font-size: 18px;
+
+}
+
+.check{
+	align-self: left;
+}
+
+.vision{
+	background-color: rgb(6,174,213);
+	color: white;
+	font-size: 150%;
+}
+
+.intro_button{
+	margin: auto;
+	padding: 10px;
+	border-radius: 10%;
+	position: fixed;
+	background-color:rgb(6,174,213);
+	width: 200px;
+	height: 80px;
+	color: white;
+	font-size: 36px;
+
+}
+
+.noti_pic{
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+}
+
+.comm_pic{
+	border-radius: 50%;
+	float: left;
+	height: 50px;
+	width: 50px;
+}
+
+.comment{
+	width: 50%;
+	min-height: 60px;
+	margin: 25px;
+	border-bottom-style: solid;
+	border-bottom-width: 0.5px;
+}
+
+.section{
+	border-top-style: solid;
+	border-top-width: 0.5px;
+}

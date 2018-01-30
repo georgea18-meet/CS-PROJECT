@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='design.css')}}">
+	<link rel="icon" href="https://10awesome.com/wp-content/uploads/2010/11/T.jpg">
+	<title>Tasky - Tasks managing made easy!</title>
+</head>
+<body style="background-color: {{user.BG_color}}">
+	<div class="header" style="z-index: 1;">
+		<ul class="header">
+			<li class="header" id="name_and_profile"><h1><a href="{{url_for('feed')}}" id="no_understrike">Tasky</a></h1></li>
+			<a href="{{url_for('profile')}}">
+			<li class="header" id="name_and_profile"><img src="{{user.profile_pic}}" id="profile"></li>
+			<li class="header" id="name_and_profile"><h2>{{user.first_name}} {{user.last_name}}</h2></li></a>
+			<li>
+		<div style="background-color: rgb(6,174,213);" id="hidden">	
+		<ul style="list-style: none;">
+			<li class="header"><h4><a href="{{url_for('profile_edit')}}">Settings</a></h4></li> 
+			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
+		</ul>
+		</div>
+		</li>
+		</ul>	
+	</div>
+	<input type="text" name="search" id="search_bar" placeholder="Search..." onkeyup="myFunction()" class="textbox" style="width: 80%; height: 50px; margin-left: 10%; margin-bottom: 10px;">
+	<div class="container" id="myUL">
+	<a href="{{url_for('feed')}}">Get back to the main page</a><br>
+		{%for i in users%}
+		<a href="{{url_for('strange_profile',user_id=i[0].id)}}" class="task_link">
+			{%if i[1] == 0%}
+			<div class="friends_container">
+				<h3>{{i[0].first_name}} {{i[0].last_name}}</h3>
+				<img src="{{i[0].profile_pic}}" id="friend">
+				<h6>{{i[0].user_name}}</h6>
+				<h5>{{i[2]}} Mutual friends</h5>
+			</div>
+			{%else%}
+			<div class="friends_container" style="color: grey;">
+				<h3>{{i[0].first_name}} {{i[0].last_name}}</h3>
+				<img src="{{i[0].profile_pic}}" id="friend" style="filter: grayscale(100%); z-index: -1;">
+				<h6>{{i[0].user_name}}</h6>
+			</div>
+			{%endif%}
+		</a>
+		{%endfor%}
+	</div>
+	<script type="text/javascript">
+  function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i, h;
+    input = document.getElementById('search_bar');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('myUL')
+    li = ul.getElementsByClassName('friends_container');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i]
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+</body>
+</html>

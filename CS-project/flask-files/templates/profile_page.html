@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='design.css')}}">
+	<link rel="icon" href="https://10awesome.com/wp-content/uploads/2010/11/T.jpg">
+	<title>Tasky - Tasks managing made easy!</title>
+</head>
+<body style="background-color: {{user.BG_color}}">
+	<div class="header">
+		<ul class="header">
+			<li class="header" id="name_and_profile"><h1><a href="{{url_for('feed')}}" id="no_understrike">Tasky</a></h1></li>
+			<a href="{{url_for('profile')}}">
+			<li class="header" id="name_and_profile"><img src="{{user.profile_pic}}" id="profile"></li>
+			<li class="header" id="name_and_profile"><h2>{{user.first_name}} {{user.last_name}}</h2></li></a>
+			<li>
+		<div style="background-color: rgb(6,174,213);" id="hidden">	
+		<ul style="list-style: none;">
+			<li class="header"><h4><a href="{{url_for('profile_edit')}}">Settings</a></h4></li> 
+			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
+		</ul>
+		</div>
+		</li>
+		</ul>	
+	</div>
+	<div class="container">
+		<a href="{{url_for('feed')}}">Get back to the main page</a><br>
+		<img src="{{user.profile_pic}}" id="profile_page">
+		<h1>{{user.first_name}} {{user.last_name}}</h1>
+		<p>{{user.user_name}}</p>
+		<p id="sort_bar">
+			<a href="{{url_for('profile_edit')}}">Settings</a>
+			<a href="">Delete</a>
+		</p>
+		<table>
+			<tr><td>Tasks</td><td>This Month<br>({{month}})</td><td>Accomplished</td></tr>
+			<tr><td class="giant_number">{{tasks}}</td><td class="giant_number">{{monthly}}</td><td class="giant_number">{{done}}</td></tr>
+		</table>
+		{%if len_req>0%}
+		<h1 class="little_red_circle">{{len_req}}</h1>
+		{%endif%}
+		<h1 onclick="document.getElementById('req').style.display='block';" style="display: inline-block;">Friendship requests</h1>
+		<div class="requests" id="req">
+			{%if len_req == 0%}
+			<h6>No requests</h6>
+			{%endif%}
+			{%for i in requests%}
+			<a href="{{url_for('strange_profile',user_id=i.id)}}"><div>
+			<img src="{{i.profile_pic}}" id="profile" style="display: inline-block;">
+			<h3 style="display: inline-block; width: 100px">{{i.first_name}} {{i.last_name}}</h3>
+			<form action="{{url_for('strange_profile',user_id=i.id)}}" method="POST">
+				<input type="submit" name="add_button" value="Accept">
+			</form>
+			</div></a>
+			{%endfor%}
+		</div>
+		<h1 onclick="document.getElementById('fri').style.display='block';">Friends</h1>
+		<div class="requests" id="fri">
+			{%if len_fri == 0%}
+			<h6>No friends</h6>
+			{%elif len_fri == 1%}
+			<h6>a friend</h6>
+			{%else%}
+			<h6>{{len_fri}} friends</h6>
+			{%endif%}
+			{%for i in friends%}
+			<a href="{{url_for('strange_profile',user_id=i.id)}}"><div>
+			<img src="{{i.profile_pic}}" id="profile" style="display: inline-block;">
+			<h3 style="display: inline-block; width: 100px">{{i.first_name}} {{i.last_name}}</h3>
+			</div></a>
+			{%endfor%}
+		</div>
+	</div>
+</body>
+</html>

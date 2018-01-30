@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='design.css')}}">
+	<link rel="icon" href="https://10awesome.com/wp-content/uploads/2010/11/T.jpg">
+	<title>Tasky - Tasks managing made easy!</title>
+</head>
+<body>
+	<div class="header">
+		<ul class="header">
+			<li class="header" id="name_and_profile"><h1>Tasky</h1></li>
+			<li>
+		<div style="background-color: rgb(6,174,213);" id="hidden">	
+		<ul style="list-style: none;">
+			<li class="header"><h4><a href="{{url_for('signin')}}">Login</a></h4></li> 
+			<li class="header"><h4><a href="{{url_for('signup')}}">Signup</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('intro')}}">About</a></h4></li>
+		</ul>
+		</div>
+		</li>
+		</ul>	
+	</div>
+	<div class="container" style="height: 250px; overflow: auto;">
+	<td rowspan="6">
+		<h1 style="color: red;">Our Cause</h1>
+		<h2>We believe in the human race, and its ability to develop and produce tools for survival. However, in the age of technology, most people has become consumers rather than producers. Productivity was essential for our survival, and it's essential, today, for our development and progress. We are doing this in order to make it easier for people to take initiatives and bring to our world many new great tools, companies, startups, etc. We believe that the key for success is handling your projects and tasks effectively.</h2>
+		<h1 style="color: red;">Our Goal</h1>
+		<h2>We aim to increase and encourage new initiatives and projects by providing them with the tools which enhance their work and progress. We aim to make the information age even faster by encouraging and accompanying new initiatives through their journey. Success for us is to create a new, better, more enhancedand productive way of work. Our goal is to start a new era of productivity.</h2>
+	</div>
+</body>
+</html>

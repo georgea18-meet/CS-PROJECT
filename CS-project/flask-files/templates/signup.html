@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='design.css')}}">
+	<link rel="icon" href="https://10awesome.com/wp-content/uploads/2010/11/T.jpg">
+	<title>Tasky - Tasks managing made easy!</title>
+</head>
+</head>
+<body>
+	<div class="header">
+		<ul class="header">
+			<li class="header" id="name_and_profile"><h1>Tasky</h1></li>
+			<li>
+		<div style="background-color: rgb(6,174,213);" id="hidden">	
+		<ul style="list-style: none;">
+			<li class="header"><h4><a href="{{url_for('signin')}}">Login</a></h4></li> 
+			<li class="header"><h4><a href="{{url_for('signup')}}">Signup</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('intro')}}">About</a></h4></li>
+		</ul>
+		</div>
+		</li>
+		</ul>	
+	</div>
+	<div class="container">
+		<h1>Sign up:</h1>
+		<div class="form_box">
+			<form action="{{url_for('signup')}}" method='POST'>
+				<p>First name:</p>
+				<input type="text" name="first_name" class="textbox"><br>
+				<p>Last name:</p>
+				<input type="text" name="last_name" class="textbox"><br>
+				<p>Username:</p>
+				<input type="text" name="user_name" class="textbox"><br>
+				<p>Password:</p>
+				<input type="password" name="password" class="textbox"><br>
+				<input type="submit" value="Sign up" class="button">
+			</form>
+			<a href="{{url_for('signin')}}">Already have an account? Click Here!</a>
+		</div>
+	</div>
+</body>
+</html>
