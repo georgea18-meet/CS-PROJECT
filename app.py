@@ -1031,6 +1031,7 @@ def inbox():
 	for m in all_messages:
 		u = db.session.query(Info).filter_by(id=m.from_u).first()
 		messages.append((m,u))
+		messages.reverse()
 	return render_template('inbox.html',messages=messages,user=user)
 
 if __name__ == "__main__":
