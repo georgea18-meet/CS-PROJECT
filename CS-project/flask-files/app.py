@@ -21,7 +21,7 @@ login_manager.init_app(app)
 import psycopg2
 
 def now():
-	return(time.strftime('%d/%m/%Y',time.gmtime(time.time())))
+	return(time.strftime('%d/%B/%Y',time.gmtime(time.time())))
 
 '''def allowed_file(filename):
     return '.' in filename and \
@@ -162,8 +162,9 @@ def feed():
 	notifications = []
 	for n in notis:
 		u = db.session.query(Info).filter_by(id=int(n.from_u)).first()
-		notifications.append((n,u,n.seen))
+		notifications.append((n,u,n.seen,n.id))
 		n.seen = 1
+	notifications.sort(key= lambda noti:noti[3])
 	notifications.reverse()
 	db.session.commit()
 	return render_template('feed.html',notifications=notifications,user=user)
@@ -541,7 +542,7 @@ def add_friends():
 						is_friend = 1
 			if is_friend == 0:
 				for f in str(u.friends).split(" "):
-					if str(user.friends).split(" ").count(f) > 0:
+					if (str(user.friends).split(" ").count(f) > 0 and f != "None"):
 						m+=1
 			users.append((u,is_friend,m))
 	return render_template('add_friends.html',users=users, user=user)
@@ -999,6 +1000,8 @@ def send(user_id):
 		msg.to = u.id
 		msg.text = request.form.get('msg_text')
 		msg.time = time.strftime('%d/%m/%Y %H:%M:%S',time.gmtime(time.time()))
+		db.session.add(msg)
+		db.session.commit()
 		noti = Update()
 		noti.noti_type = 5
 		noti.account = msg.to
@@ -1008,9 +1011,8 @@ def send(user_id):
 		noti.par = msg.id
 		noti.seen = 0
 		db.session.add(noti)
-		db.session.add(msg)
 		db.session.commit()
-		return(msg.text)
+		return render_template('inbox')
 
 @app.route('/profile/inbox/message/<int:msg_id>')
 @login_required

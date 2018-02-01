@@ -12,7 +12,7 @@
 <body style="background-color: {{user.BG_color}}">
 	<div class="header">
 		<ul class="header">
-			<li class="header" id="name_and_profile"><h1><a href="{{url_for('main',sort=0,filtered=1)}}" id="no_understrike">Tasky</a></h1></li>
+			<li class="header" id="name_and_profile"><h1><a href="{{url_for('feed')}}" id="no_understrike">Tasky</a></h1></li>
 			<a href="{{url_for('profile')}}">
 			<li class="header" id="name_and_profile"><img src="{{user.profile_pic}}" id="profile"></li>
 			<li class="header" id="name_and_profile"><h2>{{user.first_name}} {{user.last_name}}</h2></li></a>
@@ -23,6 +23,7 @@
 			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('inbox')}}">Inbox</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
 		</ul>
 		</div>

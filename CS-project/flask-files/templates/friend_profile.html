@@ -23,6 +23,7 @@
 			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('inbox')}}">Inbox</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
 		</ul>
 		</div>
@@ -33,7 +34,7 @@
 		<a href="{{url_for('add_friends')}}">add more friends!</a><br>
 		<img src="{{user.profile_pic}}" id="profile_page">
 		<h1>{{user.first_name}} {{user.last_name}}</h1>
-		<p>{{user.user_name}}</p>
+		<p>{{user.user_name}}</p><br><a href="{{url_for('send',user_id=user.id)}}">Send a Message</a>
 		<table>
 			<tr><td>Tasks</td><td>This Month<br>({{month}})</td><td>Accomplished</td></tr>
 			<tr><td class="giant_number">{{tasks}}</td><td class="giant_number">{{monthly}}</td><td class="giant_number">{{done}}</td></tr>

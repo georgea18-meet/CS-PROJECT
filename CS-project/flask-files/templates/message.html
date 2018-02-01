@@ -24,6 +24,7 @@
 			<li class="header"><h4><a href="{{url_for('add_friends')}}">Add Friends</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('my_groups')}}">My Projects</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('main',sort=0,filtered=1)}}">My Tasks</a></h4></li>
+			<li class="header"><h4><a href="{{url_for('inbox')}}">Inbox</a></h4></li>
 			<li class="header"><h4><a href="{{url_for('logout')}}">Logout</a></h4></li>
 		</ul>
 		</div>
@@ -37,6 +38,7 @@
 		<h3>{{u.first_name}} {{u.last_name}}</h3><br>
 		<h1>{{msg.text}}</h1><br>
 		{{msg.time}}<br>
+		<a href="{{url_for('send',user_id=u.id)}}">Reply</a>
 	</div>
 </body>
 </html>
