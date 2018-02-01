@@ -1012,7 +1012,7 @@ def send(user_id):
 		noti.seen = 0
 		db.session.add(noti)
 		db.session.commit()
-		return render_template('inbox')
+		return redirect(url_for('inbox'))
 
 @app.route('/profile/inbox/message/<int:msg_id>')
 @login_required
