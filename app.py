@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
 from model import Account, Task, Info, Stage, Group, Grouptask, Update, Comment, Note, Message
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 #import os
 #from werkzeug.utils import secure_filename
 import time
 import math
+import psycopg2
 #from flask import send_from_directory
 
 #UPLOAD_FOLDER = '/home/student/Desktop/CS-project/flask-files/static'
@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = 'thisissecret'
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-import psycopg2
+
 
 def now():
 	return(time.strftime('%d/%B/%Y',time.gmtime(time.time())))
