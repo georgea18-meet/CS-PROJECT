@@ -499,7 +499,9 @@ def profile_edit():
 			user.profile_pic = request.form.get("profile_pic")
 			user.BG_color = request.form.get("BG_color")
 			db.session.commit()
-		return redirect(url_for('profile'))
+			return redirect(url_for('profile'))
+		else:
+			return redirect(url_for('profile_edit'))
 
 @app.route('/task/<int:task_id>/edit',methods=['GET','POST'])
 @login_required
