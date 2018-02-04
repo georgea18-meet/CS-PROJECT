@@ -667,7 +667,7 @@ def add_friends():
 						m+=1
 			users.append((u,is_friend,m))
 	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
-	return render_template('add_friends.html',users=users, user=user,n=len(ns))
+	return render_template('add_friends.html',users=users, user=user,n=len(ns),u_len=len(users))
 
 @app.route('/profile/<int:user_id>',methods=['GET','POST'])
 @login_required

@@ -37,6 +37,7 @@
 	<input type="text" name="search" id="search_bar" placeholder="Search..." onkeyup="myFunction()" class="textbox" style="width: 80%; height: 50px; margin-left: 10%; margin-bottom: 10px;">
 	<div class="container" id="myUL">
 	<a href="{{url_for('feed')}}">Get back to the main page</a><br>
+	{%if u_len!=0%}
 		{%for i in users%}
 		<a href="{{url_for('strange_profile',user_id=i[0].id)}}" class="task_link">
 			{%if i[1] == 0%}
@@ -55,6 +56,11 @@
 			{%endif%}
 		</a>
 		{%endfor%}
-
+	{%else%}
+		<h1 style="font-size: 48px;">You're user no. 1, you should feel special!</h1>
+		<p>Once there are more people using Tasky, you'll find them here!</p>
+	{%endif%}
+	</div>
+	}
 </body>
 </html>
