@@ -277,7 +277,7 @@ def feed():
 	notifications.sort(key= lambda noti:noti[3])
 	notifications.reverse()
 	db.session.commit()
-	return render_template('feed.html',notifications=notifications,user=user)
+	return render_template('feed.html',notifications=notifications,user=user,noti_len=len(notifications))
 
 
 @app.route('/add',methods=['GET','POST'])

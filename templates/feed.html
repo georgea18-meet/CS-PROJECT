@@ -31,6 +31,7 @@
 		</ul>	
 	</div>
 	<div class="container">
+	{%if noti_len!=0%}
 		{%for i in notifications%}
 		{%if i[0].noti_type==1%}
 		<a href="{{url_for('strange_profile',user_id=i[0].par)}}">
@@ -103,6 +104,10 @@
 		</a>
 		{%endif%}
 		{%endfor%}
+	{%else%}
+		<h1 style="font-size: 48px;">Welcome to Tasky!</h1><br>
+		<p>Once you have notifications from your friends and projects they'll appear here!</p>
+	{%endif%}
 	</div>
 </body>
 </html>
