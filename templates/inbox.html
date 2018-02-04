@@ -34,13 +34,23 @@
 		</ul>	
 	</div>
 	<div class="container">
+	{%if m_len!=0%}
 		{%for i in messages%}
 			<a href="{{url_for('message',msg_id=i[0].id)}}">
-			<div class="task_container" style="width: 100%">
+			{%if i[0].seen == 0%}
+			<div class="task_container" style="width: 100%;">
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left;"><h2>{{i[1].first_name}} {{i[1].last_name}}</h2> <h6 style="font-size: 12px;">{{i[0].time}}</h6> {{i[0].text}}</p> 
 			</div>
+			{%else%}
+			<div class="task_container" style="width: 100%; color: gray;">
+				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);"><h2>{{i[1].first_name}} {{i[1].last_name}}</h2> <h6 style="font-size: 12px;">{{i[0].time}}</h6> {{i[0].text}}</p> 
+			</div>	
+			{%endif%}
 			</a>
 		{%endfor%}
+	{%else%}
+		<h1 style="font-size: 48px;">Oops! no messages :(</h1>
+		<p>Once you receive any messages, you'll be able to check them here!</p>
 	</div>
 </body>
 </html>

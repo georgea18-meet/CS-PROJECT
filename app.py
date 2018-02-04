@@ -118,6 +118,7 @@ class Message(db.Model):
 	to = db.Column('to', db.Integer)
 	time = db.Column('time', db.Unicode)
 	text = db.Column('text', db.Unicode)
+	seen = db.Column('seen', db.Integer)
 
 
 
@@ -1125,6 +1126,7 @@ def send(user_id):
 		msg.to = u.id
 		msg.text = request.form.get('msg_text')
 		msg.time = time.strftime('%d/%m/%Y %H:%M:%S',time.gmtime(time.time()))
+		msg.seen = 0
 		db.session.add(msg)
 		db.session.commit()
 		noti = Update()
@@ -1146,6 +1148,9 @@ def message(msg_id):
 	user = db.session.query(Info).filter_by(account=current_user.id).first()
 	u = db.session.query(Info).filter_by(id=msg.from_u).first()
 	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	if msg.seen == 0:
+		msg.seen = 1
+		db.session.commit()
 	return render_template('message.html',msg=msg,u=u,user=user,n=len(ns))
 
 @app.route('/profile/inbox')
@@ -1160,7 +1165,7 @@ def inbox():
 	messages.sort(key = lambda n:n[2])
 	messages.reverse()
 	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
-	return render_template('inbox.html',messages=messages,user=user,n=len(ns))
+	return render_template('inbox.html',messages=messages,user=user,n=len(ns),m_len=len(messages))
 
 if __name__ == "__main__":
 	app.run(debug=True)
