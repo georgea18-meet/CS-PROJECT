@@ -260,7 +260,8 @@ def main(sort=0,filtered=1):
 	deadlines = []
 	for task in tasks:
 		deadlines.append(time.mktime((task.deadline_y,task.deadline_m,task.deadline_d,0,0,0,0,0,0)))
-	return render_template('main.html',user=user,tasks=tasks,len=len(tasks),deadlines=deadlines,current_time=time.time(),sort=sort,filtered=filtered)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('main.html',user=user,tasks=tasks,len=len(tasks),deadlines=deadlines,current_time=time.time(),sort=sort,filtered=filtered,n=len(ns))
 
 @app.route('/main')
 @login_required
@@ -285,7 +286,8 @@ def add_task():
 	log = current_user
 	user = db.session.query(Info).filter_by(account=log.id).first()
 	if request.method == 'GET':
-		return render_template('add_task.html',user=user)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('add_task.html',user=user,n=len(ns))
 	else:
 		task = Task()
 		task.account = user.account
@@ -308,7 +310,8 @@ def add_grouptask(group_id):
 	log = current_user
 	user = db.session.query(Info).filter_by(account=log.id).first()
 	if request.method == 'GET':
-		return render_template('add_grouptask.html',user=user,group_id=group_id)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('add_grouptask.html',user=user,group_id=group_id,n=len(ns))
 	else:
 		task = Grouptask()
 		task.group = group_id
@@ -353,7 +356,8 @@ def task(task_id):
 				days = int(math.ceil(days))
 			else:
 				days = int(math.floor(days))
-			return render_template('task.html',task=task, days=days, user=user)
+				ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+			return render_template('task.html',task=task, days=days, user=user,n=len(ns))
 		else:
 			logout_user()
 			return redirect(url_for('signin'))
@@ -379,7 +383,8 @@ def grouptask(task_id):
 			days = int(math.ceil(days))
 		else:
 			days = int(math.floor(days))
-		return render_template('grouptask.html',task=task,days=days,user=user,comments=comments)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('grouptask.html',task=task,days=days,user=user,comments=comments,n=len(ns))
 	else:
 		task = db.session.query(Grouptask).filter_by(id=task_id).first()
 		group = db.session.query(Group).filter_by(id=task.group).first()
@@ -482,7 +487,8 @@ def profile_edit():
 	log = current_user
 	user = db.session.query(Info).filter_by(account=log.id).first()
 	if request.method=='GET':
-		return render_template('profile_settings.html',user=user)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('profile_settings.html',user=user,n=len(ns))
 	else:
 		if request.form.get('old_password')==user.password:
 			user.first_name = request.form.get("first_name").capitalize()
@@ -503,7 +509,8 @@ def edit_task(task_id):
 	if log == current_user:
 		if request.method == 'GET':
 			user = db.session.query(Info).filter_by(account=task.account).first()
-			return render_template('edit_task.html',task=task,user=user)
+			ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+			return render_template('edit_task.html',task=task,user=user,n=len(ns))
 		else:
 			if request.form.get('task_title') != '':
 				task.task_title = request.form.get('task_title')
@@ -528,7 +535,8 @@ def edit_grouptask(task_id):
 	log = current_user
 	user = db.session.query(Info).filter_by(account=log.id).first()
 	if request.method == 'GET':
-		return render_template('edit_grouptask.html',task=task,user=user)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('edit_grouptask.html',task=task,user=user,n=len(ns))
 	else:
 		if request.form.get('task_title') != '':
 			task.task_title = request.form.get('task_title')
@@ -590,7 +598,8 @@ def profile():
 			req = db.session.query(Info).filter_by(id=int(r)).first()
 			friends.append(req)
 	len_fri = len(friends)
-	return render_template('profile_page.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,requests=requests,friends=friends,len_req=len_req,len_fri=len_fri)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('profile_page.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,requests=requests,friends=friends,len_req=len_req,len_fri=len_fri,n=len(ns))
 
 @app.route('/logout')
 @login_required
@@ -654,7 +663,8 @@ def add_friends():
 					if (str(user.friends).split(" ").count(f) > 0 and f != "None"):
 						m+=1
 			users.append((u,is_friend,m))
-	return render_template('add_friends.html',users=users, user=user)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('add_friends.html',users=users, user=user,n=len(ns))
 
 @app.route('/profile/<int:user_id>',methods=['GET','POST'])
 @login_required
@@ -689,10 +699,7 @@ def strange_profile(user_id):
 					is_req = 0
 					am_req = 0
 					is_friend = 1
-
-
-		requests = str(user.friend_requests).split(" ")	
-		
+		requests = str(user.friend_requests).split(" ")			
 		if is_friend == 0:
 			if user.friend_requests != "None":
 				requests = str(user.friend_requests).split(" ")
@@ -711,9 +718,9 @@ def strange_profile(user_id):
 					for r in reqs:
 						if int(r) == user.id:
 							am_req = 1
-
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
 		if request.method == 'GET':
-			return render_template('friend_profile.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,u=u, is_req=is_req, am_req=am_req, is_friend=is_friend)
+			return render_template('friend_profile.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,u=u, is_req=is_req, am_req=am_req, is_friend=is_friend,n=len(ns))
 		else:
 			sub = request.form.get('add_button')
 			if is_friend == 0:
@@ -793,7 +800,7 @@ def strange_profile(user_id):
 				is_friend = 0
 
 			db.session.commit()
-			return render_template('friend_profile.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,u=u, is_req=is_req, am_req=am_req, is_friend=is_friend)
+			return render_template('friend_profile.html',monthly=monthly,month=month,done=done,tasks=len(tasks),user=user,u=u, is_req=is_req, am_req=am_req, is_friend=is_friend,n=len(ns))
 			
 @app.route('/group/create',methods=['GET','POST'])
 @login_required
@@ -807,7 +814,8 @@ def create_group():
 			friend = db.session.query(Info).filter_by(id=int(r)).first()
 			friends.append(friend)
 	if request.method == 'GET':
-		return render_template('create_group.html',friends=friends, user=user)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('create_group.html',friends=friends,user=user,n=len(ns))
 	else:
 		group = Group()
 		group.name = request.form.get('name')
@@ -858,7 +866,8 @@ def edit_group(group_id):
 					is_member = 1
 			friends.append((friend,is_member))
 	if request.method == 'GET':
-		return render_template('group_settings.html',friends=friends,user=user,group_id=group_id,group=group)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('group_settings.html',friends=friends,user=user,group_id=group_id,group=group,n=len(ns))
 	else:
 		group.name = request.form.get('name')
 		members = request.form.getlist('member')
@@ -972,7 +981,8 @@ def group(group_id):
 	if p == 0:
 		return redirect(url_for('logout'))
 	else:
-		return render_template('group.html',members=mems,user=user,group=group,tasks=tasks,deadlines=deadlines,len_t=len(tasks),len_n=len(notes),current_time=time.time(),accounts=accounts,notes=notes)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('group.html',members=mems,user=user,group=group,tasks=tasks,deadlines=deadlines,len_t=len(tasks),len_n=len(notes),current_time=time.time(),accounts=accounts,notes=notes,n=len(ns))
 
 @app.route('/group/main')
 @login_required
@@ -999,7 +1009,8 @@ def my_groups():
 			show = 0
 	else:
 		show = 0
-	return render_template('my_groups.html',user=user,groups=groups,show=show)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('my_groups.html',user=user,groups=groups,show=show,n=len(ns))
 
 @app.route('/group/<int:group_id>/leave')
 @login_required
@@ -1047,7 +1058,8 @@ def add_note(group_id):
 	user = db.session.query(Info).filter_by(account=log.id).first()
 	group = db.session.query(Group).filter_by(id=group_id).first()
 	if request.method == 'GET':
-		return render_template('add_note.html',user=user,group_id=group_id)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('add_note.html',user=user,group_id=group_id,n=len(ns))
 	else:
 		note = Note()
 		note.account = user.id
@@ -1082,7 +1094,8 @@ def note(note_id):
 	for c in comms:
 		u = db.session.query(Info).filter_by(account=c.account).first()
 		comments.append((c,u))
-	return render_template('note.html',user=user,note=note,account=account,comments=comments)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('note.html',user=user,note=note,account=account,comments=comments,n=len(ns))
 
 @app.route('/group/delete_note/<int:note_id>')
 @login_required
@@ -1102,7 +1115,8 @@ def send(user_id):
 	user = db.session.query(Info).filter_by(account=current_user.id).first()
 	u = db.session.query(Info).filter_by(id=user_id).first()
 	if request.method == 'GET':
-		return render_template('write_message.html',user=user,u=u)
+		ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+		return render_template('write_message.html',user=user,u=u,n=len(ns))
 	else:
 		msg = Message()
 		msg.from_u = user.id
@@ -1129,7 +1143,8 @@ def message(msg_id):
 	msg = db.session.query(Message).filter_by(id=msg_id).first()
 	user = db.session.query(Info).filter_by(account=current_user.id).first()
 	u = db.session.query(Info).filter_by(id=msg.from_u).first()
-	return render_template('message.html',msg=msg,u=u,user=user)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('message.html',msg=msg,u=u,user=user,n=len(ns))
 
 @app.route('/profile/inbox')
 @login_required
@@ -1142,7 +1157,8 @@ def inbox():
 		messages.append((m,u,m.id))
 	messages.sort(key = lambda n:n[2])
 	messages.reverse()
-	return render_template('inbox.html',messages=messages,user=user)
+	ns = db.session.query(Update).filter_by(account=user.id,seen=0).all()
+	return render_template('inbox.html',messages=messages,user=user,n=len(ns))
 
 if __name__ == "__main__":
 	app.run(debug=True)
