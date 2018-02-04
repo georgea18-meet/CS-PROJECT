@@ -7,6 +7,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import time
 import math
 import psycopg2
+
 #from flask import send_from_directory
 
 #UPLOAD_FOLDER = '/home/student/Desktop/CS-project/flask-files/static'
@@ -122,7 +123,14 @@ class Message(db.Model):
 
 
 def now():
-	return(time.strftime('%d/%B/%Y',time.gmtime(time.time())))
+	if (time.gmtime(time.time())[2]%10 == 1) and (time.gmtime(time.time())[2]!=11):
+		return(time.strftime('%B %dst, %Y',time.gmtime(time.time())))
+	elif (time.gmtime(time.time())[2]%10 == 2) and (time.gmtime(time.time())[2]!=12):
+		return(time.strftime('%B %dnd, %Y',time.gmtime(time.time())))
+	elif (time.gmtime(time.time())[2]%10 == 3) and (time.gmtime(time.time())[2]!=13):
+		return(time.strftime('%B %drd, %Y',time.gmtime(time.time())))
+	else:
+		return(time.strftime('%B %dth, %Y',time.gmtime(time.time())))
 
 '''def allowed_file(filename):
     return '.' in filename and \
@@ -185,6 +193,23 @@ def signup():
 			user.friends = "None"
 			user.friend_requests = "None"
 			db.session.add(user)
+			db.session.commit()
+			msg = Message()
+			msg.from_u = 0
+			msg.to = user.id
+			msg.text = "Welcome to Tasky!\r We are glad that you decided to join our motivating and productive environment. Here you can manage your own tasks, as well as your group and individual projects. If you have any questions, reply to this message, and we'll be more than happy to answer any of them.\r Let it be the reason of your success.\r \r Tasky."
+			msg.time = time.strftime('%d/%m/%Y %H:%M:%S',time.gmtime(time.time()))
+			db.session.add(msg)
+			db.session.commit()
+			noti = Update()
+			noti.noti_type = 5
+			noti.account = msg.to
+			noti.from_u = msg.from_u
+			noti.text = user.first_name+" "+user.last_name+" has sent you a message '"+msg.text+".'"
+			noti.date = now()
+			noti.par = msg.id
+			noti.seen = 0
+			db.session.add(noti)
 			db.session.commit()
 			return redirect(url_for("signin"))
 		else:
@@ -1120,7 +1145,10 @@ def send(user_id):
 def message(msg_id):
 	msg = db.session.query(Message).filter_by(id=msg_id).first()
 	user = db.session.query(Info).filter_by(account=current_user.id).first()
-	u = db.session.query(Info).filter_by(id=msg.from_u).first()
+	if msg.u_from == 0:
+		u = db.session.query(Info).filter_by(user_name="tasky_2018").first()
+	else:
+		u = db.session.query(Info).filter_by(id=msg.from_u).first()
 	return render_template('message.html',msg=msg,u=u,user=user)
 
 @app.route('/profile/inbox')
@@ -1130,10 +1158,13 @@ def inbox():
 	all_messages = db.session.query(Message).filter_by(to=user.id).all()
 	messages = []
 	for m in all_messages:
-		u = db.session.query(Info).filter_by(id=m.from_u).first()
+		if msg.u_from == 0:
+			u = db.session.query(Info).filter_by(user_name="tasky_2018").first()
+		else:
+			u = db.session.query(Info).filter_by(id=msg.from_u).first()
 		messages.append((m,u,m.id))
-		messages.sort(key = lambda n:n[2])
-		messages.reverse()
+	messages.sort(key = lambda n:n[2])
+	messages.reverse()
 	return render_template('inbox.html',messages=messages,user=user)
 
 if __name__ == "__main__":
