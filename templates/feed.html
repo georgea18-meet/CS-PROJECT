@@ -36,12 +36,12 @@
 		<a href="{{url_for('strange_profile',user_id=i[0].par)}}">
 		{%if i[2]==0%}
 			<div class="task_container">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left;">{{i[0].text}}</p> 
 			</div>
 		{%else%}
 			<div class="task_container" style="color: gray;">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);">{{i[0].text}}</p> 
 			</div>
 		{%endif%}
@@ -55,7 +55,7 @@
 			</div>
 		{%else%}
 			<div class="task_container" style="color: gray;">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);">{{i[0].text}}</p> 
 			</div>
 		{%endif%}
@@ -64,12 +64,12 @@
 		<a href="{{url_for('grouptask',task_id=i[0].par)}}">
 		{%if i[2]==0%}
 			<div class="task_container">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left;">{{i[0].text}}</p> 
 			</div>
 		{%else%}
 			<div class="task_container" style="color: gray;">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);">{{i[0].text}}</p> 
 			</div>
 		{%endif%}
@@ -78,12 +78,12 @@
 		<a href="{{url_for('note',note_id=i[0].par)}}">
 		{%if i[2]==0%}
 			<div class="task_container">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left;">{{i[0].text}}</p> 
 			</div>
 		{%else%}
 			<div class="task_container" style="color: gray;">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);">{{i[0].text}}</p> 
 			</div>
 		{%endif%}
@@ -91,12 +91,12 @@
 		<a href="{{url_for('message',msg_id=i[0].par)}}">
 		{%if i[2]==0%}
 			<div class="task_container">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left;">{{i[0].text}}</p> 
 			</div>
 		{%else%}
 			<div class="task_container" style="color: gray;">
-				<p id="sort_bar">{{i[0].date}}</p>
+				<p>{{i[0].date}}</p>
 				<p><img src="{{i[1].profile_pic}}" class="noti_pic" style="float: left; filter: grayscale(100%);">{{i[0].text}}</p> 
 			</div>
 		{%endif%}
