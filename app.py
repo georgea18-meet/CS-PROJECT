@@ -184,8 +184,16 @@ def signup():
 			db.session.commit()
 			user = Info()
 			user.account = log.id
-			user.first_name = request.form.get("first_name").capitalize()
-			user.last_name = request.form.get("last_name").capitalize()
+			strings_in_first_name = request.form.get("first_name").split(" ")
+			strings_in_last_name = request.form.get("last_name").split(" ")
+			first_name_string = strings_in_first_name[0].capitalize()
+			last_name_string = strings_in_last_name[0].capitalize()
+			for i in range(1,len(strings_in_first_name)):
+				first_name_string = first_name_string+" "+strings_in_first_name[i].capitalize()
+			for i in range(1,len(strings_in_last_name)):
+				last_name_string = last_name_string+" "+strings_in_last_name[i].capitalize()
+			user.first_name = first_name_string
+			user.last_name = last_name_string
 			user.user_name = request.form.get("user_name")
 			user.password = request.form.get("password")
 			user.profile_pic = "http://www.uva-aias.net/placeholders/avatar-male.png"
