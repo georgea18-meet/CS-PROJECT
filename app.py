@@ -14,6 +14,7 @@ import psycopg2
 #ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://khwgribrjrkrfc:5742a9e8e262b6c2e740c7e83a685242f4fa3b665a02f22c82664d691dce14b1@ec2-54-83-203-198.compute-1.amazonaws.com:5432/d9fodf06bjket4'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://george:george@localhost/cs_project'
 app.config['SECRET_KEY'] = 'thisissecret'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
@@ -1160,7 +1161,7 @@ def inbox():
 	all_messages = db.session.query(Message).filter_by(to=user.id).all()
 	messages = []
 	for m in all_messages:
-		u = db.session.query(Info).filter_by(id=msg.from_u).first()
+		u = db.session.query(Info).filter_by(id=m.from_u).first()
 		messages.append((m,u,m.id))
 	messages.sort(key = lambda n:n[2])
 	messages.reverse()
